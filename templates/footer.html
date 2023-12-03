@@ -1,0 +1,38 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="UTF-8">
+    <meta name="description" content="Footer">
+    <meta name="keywords" content="HTML, CSS, JavaScript, Django, Python">
+    <meta name="author" content="Towett John">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../static/styles/style.css">
+    <title></title>
+</head>
+<body>
+<article aria-labelledby="footer">
+    <hr id="footer-hr">
+    <section id="footer">
+        <h1 id="footer-logo"><a href="{% url 'index' %}" style="text-decoration: none; color: black">
+            TOWETT
+        </a></h1>
+        <p class="paragraph" id="footer-slogan">Create, Develop, Engineer... </p>
+    </section>
+    <section aria-labelledby="social-media-handles" id="social-media-handles">
+       <p><a href="https://www.twitter.com/"><img src="../static/icons/twitter%201.svg" alt="twitter icon"></a></p>
+       <p><a href="https://www.instagram.com/"><img src="../static/icons/instagram-alt%201.svg" alt="instagram icon"></a></p>
+       <p><a href="https://www.linkedin.com/"><img src="../static/icons/social-linkedin%201.svg" alt="linkedin icon"></a></p>
+{#       <p><a href="https://www.threads.net/"><img src="../static/icons/threads.svg" alt="Threads icon"></a></p> #}
+    </section>
+    <section aria-labelledby="copyright">
+        <p id="copyright">Copyright 2023 © Alex Towett. All Rights Reserved.</p>
+    </section>
+</article>
+</body>
+</html>

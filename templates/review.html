@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="User Review">
+    <meta name="keywords" content="HTML, CSS, JavaScript, Django, Python">
+    <meta name="author" content="Towett John">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="shortcut icon" href="../static/icons/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../static/styles/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>User Reviews</title>
+</head>
+<body>
+    <header>
+        {%include 'header.html'%}
+    </header>
+
+    <br><br><br><br>
+
+<article aria-labelledby="survey">
+    <div class="review-form-container">
+        <form method="POST" action="{% url 'review' %}" class="review-form">
+            <h1 class="review-heading" style="text-align: center; margin: 5%">Make a Comment</h1>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div style="text-align: center; justify-content: center;">
+            <button type="submit" class="button" style="padding-right: 10%; padding-left: 10%;">Submit</button>
+            </div>
+        </form>
+    </div>
+</article>
+
+    <br><br><br>
+
+<footer>
+    {%include 'footer.html'%}
+</footer>
+</body>
+</html>

@@ -1,0 +1,132 @@
+{% load project_extras %}
+{% load humanize %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Towett's Project Portfolio">
+    <meta name="keywords" content="HTML, CSS, JavaScript, Django, Python">
+    <meta name="author" content="Towett John">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../static/icons/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../static/styles/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Towett's Project Portfolio</title>
+</head>
+<body>
+<header>
+    {% include 'header.html' %}
+</header>
+<main>
+    <article>
+        {% if query %}
+            {% if results %}
+                <div class="all-project-cards-container">
+                    {% for result in results %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card all-project-card mb-4 m-md-0">
+                                <div class="all-project-logo">
+                                    <img src="{{ result.logo.url }}" alt="Project Logo" class="card-img-top">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ result.name }} ({{ result.github_status |capfirst }})</h5>
+                                    <p class="card-text all-project-description">{{ result.description }}</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <div class="all-project-status">
+                                            Status:
+                                            {% get_project_status_info result.status as status_info %}
+                                            <div class="all-project-status-card"
+                                                 style="background-color: {{ status_info.color }};">
+                                                <div class="all-project-status-icon">
+                                                    <img src="{{ status_info.icon }}" alt="Project Status" width="20px"
+                                                         height="20px">
+                                                </div>
+                                                <div class="all-status-value">{{ result.get_status_display }}</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="all-project-cost">
+                                            <p class="heading">Cost: KES {{ result.cost|intcomma }}.00</p>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="all-project-developers">
+                                            <p class="paragraph">Developers: {{ result.developers }}</p>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="all-project-progress">
+                                            Progress:
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                                     role="progressbar" aria-valuenow="{{ result.progress }}"
+                                                     aria-valuemin="0"
+                                                     aria-valuemax="100" style="width: {{ result.progress }}%;">
+                                                    {{ result.progress }}%
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class="card-body all-project-website-and-source-code">
+                                    <div class="all-project-website">
+                                        {% if result.website %}
+                                            <a href="{{ result.website }}" class="btn btn-primary ">
+                                                View Website
+                                            </a>
+                                        {% else %}
+                                            <button class="btn btn-secondary" disabled>
+                                                View Website
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                    <div class="all-project-source-code">
+                                        {% if result.github_status == 'public' %}
+                                            <a href="{{ result.source_code }}" class="btn btn-primary">
+                                                View Source Code
+                                            </a>
+                                        {% elif result.github_status == 'private' %}
+                                            <div class="contact-developer-button">
+                                                <a href="{% url 'contact-me' %}" class="btn btn-primary">
+                                                    Request Source Code
+                                                </a>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <article>
+                    <div class="message-container">
+                        <div class="mdc-card">
+                            <div class="mdc-card__content">
+                                <div class="mdc-typography mdc-typography--headline6">⚠️ Sorry!</div>
+                                <div class="mdc-typography mdc-typography--subtitle1">Could not find "{{ query }}" in
+                                    the database.
+                                </div>
+                            </div>
+                            <div class="mdc-card__actions">
+                                <a href="{% url 'index' %}" class="mdc-button mdc-card__action">Back to Home</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            {% endif %}
+        {% endif %}
+    </article>
+</main>
+<footer>
+    {% include 'footer.html' %}
+</footer>

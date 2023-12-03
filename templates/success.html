@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Thank you!">
+    <meta name="keywords" content="HTML, CSS, JavaScript, Django, Python">
+    <meta name="author" content="Towett John">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../static/styles/style.css">
+    <link rel="shortcut icon" href="../static/icons/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Sent!</title>
+</head>
+<body>
+<article>
+<div class="message-container">
+        <div class="mdc-card">
+            <div class="mdc-card__content">
+                <div class="mdc-typography mdc-typography--headline6">Success!</div>
+                <div class="mdc-typography mdc-typography--subtitle1">Your message has been sent.</div>
+            </div>
+            <div class="mdc-card__actions">
+                <a href="{% url 'index' %}" class="mdc-button mdc-card__action">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</article>
+</body>
+<scripts>
+    <script src="https://cdn.jsdelivr.net/npm/@material/snackbar/dist/mdc.snackbar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@material/button/dist/mdc.button.js"></script>
+</scripts>
+</html>

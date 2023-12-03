@@ -1,0 +1,159 @@
+{% load humanize %}
+{% load static %}
+{% load project_extras %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Towett's Project Portfolio">
+    <meta name="keywords" content="HTML, CSS, JavaScript, Django, Python">
+    <meta name="author" content="Towett John">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../static/icons/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../static/styles/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Towett's Project Portfolio</title>
+</head>
+<body>
+<header>
+    {% include 'header.html' %}
+</header>
+<main>
+    <article aria-labelledby="recent-projects" title="Recent Projects">
+        <div class="recent-project-container">
+            <h2 class="heading" id="recent-projects" style="font-size: 24px;">Recent Projects</h2>
+            <!-- Change the heading title -->
+            <div class="recent-project-cards-container">
+                {% for recent_project in projects %}
+                    <!-- Limit the number of projects to 6 and order by creation_date -->
+                    <div class="recent-project-card">
+                        <div class="recent-project-logo">
+                            <img src="{{ recent_project.logo.url }}" alt="Project Logo">
+                        </div>
+                        <div class="recent-project-name">{{ recent_project.name }}</div>
+                        <!-- Use the get_project_status_info template tag to get the icon URL and background color for the project status -->
+                        {% get_project_status_info recent_project.status as status_info %}
+                        <div class="recent-project-status-card" style="background-color: {{ status_info.color }};">
+                            <div class="recent-project-status-icon"><img src="{{ status_info.icon }}"
+                                                                         alt="Project Status" width="20px"
+                                                                         height="20px" style="visibility: hidden">
+                            </div>
+                            <div class="status-value">{{ recent_project.get_status_display }}</div>
+                        </div>
+                        <div class="recent-project-description">{{ recent_project.description|truncatewords:10 }}</div>
+                        <div class="paragraph" style="font-size: small; padding-top: 5px;">Created On:
+                            <em>{{ recent_project.creation_date }}</em></div>
+                        <!-- Truncate the description to 10 words -->
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </article>
+
+    <article aria-labelledby="all-projects" title="All Projects">
+    <div class="container-fluid all-project-container">
+        <h2 class="heading" id="projects">What I'm Working On</h2>
+        <div class="row all-project-cards-container">
+            {% for all_project in all_projects %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card all-project-card mb-4 m-md-0">
+                        <div class="all-project-logo">
+                            <img src="{{ all_project.logo.url }}" alt="Project Logo" class="card-img-top">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ all_project.name }} ({{ all_project.github_status |capfirst }})</h5>
+                            <p class="card-text all-project-description">{{ all_project.description }}</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div class="all-project-status">
+                                Status:
+                                {% get_project_status_info all_project.status as status_info %}
+                                <div class="all-project-status-card" style="background-color: {{ status_info.color }};">
+                                    <div class="all-project-status-icon">
+                                        <img src="{{ status_info.icon }}" alt="Project Status" width="20px"
+                                             height="20px" style="visibility: hidden">
+                                    </div>
+                                    <div class="all-status-value">{{ all_project.get_status_display }}</div>
+                                </div>
+                            </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="all-project-cost">
+                                    <p class="heading">Cost: KES {{ all_project.cost|intcomma }}.00</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="all-project-developers">
+                                    <p class="paragraph">Developers: {{ all_project.developers }}</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="all-project-progress">
+                                    Progress:
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                            role="progressbar" aria-valuenow="{{ all_project.progress }}" aria-valuemin="0"
+                                            aria-valuemax="100" style="width: {{ all_project.progress }}%;">
+                                            {{ all_project.progress }}%
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="card-body all-project-website-and-source-code">
+                            <div class="all-project-website">
+                                {% if all_project.website %}
+                                    <a href="{{ all_project.website }}" class="btn btn-primary ">
+                                        View Website
+                                    </a>
+                                {% else %}
+                                    <button class="btn btn-secondary" disabled>
+                                        View Website
+                                    </button>
+                                {% endif %}
+                            </div>
+                            <div class="all-project-source-code">
+                                {% if all_project.github_status == 'public' %}
+                                    <a href="{{ all_project.source_code }}" class="btn btn-primary">
+                                        View Source Code
+                                    </a>
+                                {% elif all_project.github_status == 'private' %}
+                                    <div class="contact-developer-button">
+                                        <a href="{% url 'contact-me' %}" class="btn btn-primary">
+                                            Request Source Code
+                                        </a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row" id="contact-me">
+            <div class="col-md-12">
+                <h1 class="heading">Want to Work With Me?</h1>
+                <p class="paragraph">Thinking of making a website for your business? Wondering how to automate your
+                    company? Do not worry. Just click the button below and your wish becomes my command.</p>
+                <a href="{% url 'contact-me' %}" class="button">Contact Me</a>
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+</main>
+<footer>
+    {% include 'footer.html' %}
+</footer>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../static/js/main.js"></script>
+</html>

@@ -1,0 +1,223 @@
+{% load static %}
+{% load project_extras %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Towett's Portfolio">
+    <meta name="keywords"
+          content="Towett, Alex Towett, Towett's Portfolio projects, portfolio, website, milestones, javascript, html, css, django, python">
+    <meta name="author" content="Towett John">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../static/icons/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="../static/styles/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Towett's Portfolio</title>
+</head>
+<body>
+<header>
+    {% include 'header.html' %}
+</header>
+
+<main>
+    <article aria-label="search">
+        <div class="search-bar">
+            <label for="search-input"></label>
+            <input type="text" id="search-input" placeholder="Search Anything"/>
+            <button id="search-button" onclick="submitSearch()">
+                <i class="material-icons">search</i>
+            </button>
+        </div>
+    </article>
+    <br><br>
+    <article aria-labelledby="welcome-screen">
+        <section class="welcome-screen">
+            <div class="welcome-video">
+                <figure>
+                    <video autoplay muted loop>
+                        <source src="../static/videos/hero.mp4" type="video/mp4"></video>
+                </figure>
+            </div>
+        </section>
+    </article>
+    <br><br>
+    <article aria-labelledby="about-me">
+        <div class="container" id="about-me">
+            <h1 class="heading" style="font-size: 1.5rem">Hi, I'm Alex Towett</h1>
+            <p class="paragraph">I am a Software Engineer specializing in Software Development, Web Development, and
+                System Development. I love creating automated software systems that ease the user’s work. I am currently
+                pursuing a degree in Business Information Technology at Dedan Kimathi University of Technology.</p>
+            <br>
+            <a href="{% url 'profile' %}" class="button">Go to Profile</a>
+        </div>
+    </article>
+
+    <br><br>
+    <article aria-labelledby="skills-and-experience">
+        <div class="skills-card">
+            <h2 id="skills-and-experience" style="text-align: center; justify-content: center">Skills & Experience</h2>
+            <div class="index-skills-table">
+                <div class="column">
+                    <div><img class="skills-icon" src="../static/icons/code.svg" alt="Css Icon" height="50" width="67">
+                    </div>
+                    <div class="heading">Web Development</div>
+                    <div class="description">I create websites that are clean, simple, and that do what they claim to
+                        do!
+                    </div>
+                    <br><br>
+                    <div class="heading">What I’m good at</div>
+                    <div class="description">
+                        <p>Web Design</p>
+                        <p>UI/UX Design</p>
+                        <p>Front-End Development</p>
+                        <p>Backend Development</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div><img class="skills-icon" src="../static/icons/software-dev.svg" alt="software dev Icon"
+                              height="50" width="67"></div>
+                    <div class="heading">Software Development</div>
+                    <div class="description">I find designing and implementing software systems from scratch refreshing.
+                    </div>
+                    <br><br>
+                    <div class="heading">What I can Do</div>
+                    <div class="description">
+                        <p>Android Development</p>
+                        <p>iOS Development</p>
+                        <p>Windows Development</p>
+                        <p>macOS Development</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div><img class="skills-icon" src="../static/icons/system-dev.svg" alt="system dev Icon" height="50"
+                              width="67"></div>
+                    <div class="heading">System Development</div>
+                    <div class="description">I consider every software I make a system. A living thing that solves
+                        problems
+                        and can communicate with other software systems.
+                    </div>
+                    <br><br>
+                    <div class="heading">What I Know</div>
+                    <div class="description">
+                        <p>Linux Server Administration</p>
+                        <p>System Analysis & Design</p>
+                        <p>DevOPs</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <br><br>
+    <article aria-labelledby="projects" title="Portfolio Projects">
+        <div class="project-container">
+            <h2 class="heading" id="projects" style="font-size: 24px;">What I'm Working On</h2>
+            <div class="project-cards-container">
+                {% for project in projects %}
+                    <div class="project-card">
+                        <div class="project-logo">
+                            <img src="{{ project.logo.url }}" alt="Project Logo">
+                        </div>
+                        <div class="project-name">{{ project.name }}</div>
+                        <!-- Use the get_project_status_info template tag to get the icon URL and background color for the project status -->
+                        {% get_project_status_info project.status as status_info %}
+                        <div class="project-status-card" style="background-color: {{ status_info.color }};">
+                            <div class="project-status-icon"><img src="{{ status_info.icon }}"
+                                                                  alt="Project Status" width="20px" height="20px"></div>
+                            <div class="status-value">{{ project.get_status_display }}</div>
+                        </div>
+                        <div class="project-description">{{ project.description }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="view-portfolio">
+                <p class="paragraph">Want to See More?</p>
+                <br>
+                <a href="{% url 'portfolio' %}" class="button">View Portfolio</a>
+            </div>
+        </div>
+    </article>
+
+
+    <br><br>
+    <article aria-labelledby="reviews">
+        <h1 id="reviews" style="text-align: center">Comments & Reviews</h1>
+        <div class="review-card-container">
+            {% for review in reviews %}
+                <div class="review-card">
+                    <figure>
+                        <img src="{{ review.profile_photo.url }}" alt="{{ review.name }}'s profile photo">
+                        <figcaption>
+                            <p class="comment">{{ review.comment }}</p>
+                            <p class="reviewer">{{ review.name }}. {{ review.what_do_you_do }}. {{ review.where_do_you_work }}</p>
+                        </figcaption>
+                    </figure>
+                </div>
+            {% endfor %}
+        </div>
+        <br><br>
+        <div class="navigation">
+            <button class="chevron left" aria-label="Previous review"><i class="material-icons">chevron_left</i>
+            </button>
+            <button class="chevron right" aria-label="Next review"><i class="material-icons">chevron_right</i>
+            </button>
+        </div>
+        <br>
+        <div class="write-comment">
+            <p style="text-align: center" class="paragraph">Have something to say about me?</p>
+            <br>
+            <a href="{% url 'review' %}" class="button"
+               style="align-content: center; justify-content: center">Comment</a>
+        </div>
+    </article>
+
+
+    {% comment %}
+
+    <article aria-labelledby="collaboration">
+        <h2 class="heading" id="collaboration" style="font-size: 24px; text-align: center">Companies I have Worked
+            With</h2>
+        <p class="paragraph" style="text-align: center; padding: 0 5% 0 5%;">It has been my absolute honour to work with
+            these companies. My time with them has
+            sharpened my skills and broadened my experience </p>
+        <section class="collaboration-image">
+            <img src="../static/icons/safaricom_logo.svg" alt="Safaricom Logo">
+            <img src="../static/icons/meta%201.svg" alt="Meta Logo">
+            <img src="../static/icons/amazon%201.svg" alt="Amazon Logo">
+            <img src="../static/icons/kenya%20power%201.svg" alt="Kenya Power Logo">
+        </section>
+    </article>
+{% endcomment %}
+
+
+    <br><br>
+
+    <article aria-labelledby="contact-me">
+        <div class="container" id="contact-me">
+            <h2 class="heading" style="font-size: 24px">Want to Chat?</h2>
+            <p class="paragraph">I am available to chat on software engineering or any other topics. If you wish to talk
+                to me about anything - and I mean anything - don’t be shy, Just click the button below and get the
+                conversation going... </p>
+            <br>
+            <a href="{% url 'contact-me' %}" class="button">Contact Me</a>
+        </div>
+    </article>
+
+    <br><br>
+
+
+</main>
+
+<footer>
+    <article>
+        {% include 'footer.html' %}
+    </article>
+</footer>
+<script src="../static/js/main.js"></script>
+
+</body>
+</html>
